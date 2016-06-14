@@ -86,12 +86,19 @@ func verifyRequest (req *http.Request) bool {
 
   secret := os.Getenv("SECRET")
   if secret != ""{
-    const signaturePrefix = "sh1="
+    const signaturePrefix = "sha1="
     const signatureLength = 45 // len(SignaturePrefix) + len(hex(sha1))
 
     sig := req.Header.Get("X-Hub-Signature")
+    gitlabToken := req.Header.Get("X-Gitlab-Token")
 
-    if sig == "" || len(sig) != signatureLength || !strings.HasPrefix(sig, signaturePrefix) {
+    if sig == "" && gitlabToken != ""{
+      if gitlabToken == secret {
+        return true
+      } else {
+        return false
+      }
+    } else if len(sig) != signatureLength || !strings.HasPrefix(sig, signaturePrefix) {
       return false
     }
 
