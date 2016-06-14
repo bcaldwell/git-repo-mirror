@@ -11,6 +11,8 @@ import (
   "os/exec"
   "io/ioutil"
   "gopkg.in/robfig/cron.v2"
+  "time"
+  "strconv"
 )
 
 type webhook struct {
@@ -36,11 +38,10 @@ func (hook *webhook) init () {
 }
 
 func (hook *webhook) createCron () {
-  interval := os.Getenv("CRON")
+  interval := envDefault("CRON", "@hourly")
+
   if strings.ToLower(interval) == "false" {
     return
-  } else if interval == "" {
-    interval = "@hourly"
   }
   c := cron.New()
   c.AddFunc(interval, hook.mirrorRepo)
@@ -113,15 +114,28 @@ func verifyRequest (req *http.Request) bool {
 }
 
 
-func runCmd (cmd string, args []string, dir ...string) (string){
-  fmt.Println(args)
+func runCmd (cmd string, args []string, dir ...string) {
+  timeoutInt, err := strconv.Atoi(envDefault("TIMEOUT", "10000"))
+  handleError(err)
+
+  timeout := time.Duration(timeoutInt) * time.Millisecond
+
   command := exec.Command(cmd, args...)
   if len(dir) > 0 && dir[0] != "" {
     command.Dir = dir[0]
   }
-  out, err := command.Output()
+
+  err = command.Start();
   handleError(err)
 
-  fmt.Printf("%s\n", out)
-  return string(out)
+  done := make(chan error)
+  go func() { done <- command.Wait() }()
+
+  select {
+  case err := <-done:
+    handleError(err)
+  case <-time.After(timeout):
+    command.Process.Kill()
+    fmt.Println("timeout")
+  }
 }

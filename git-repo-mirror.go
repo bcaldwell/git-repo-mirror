@@ -22,32 +22,28 @@ func main() {
     http.HandleFunc("/", handler)
 
 
-    port := os.Getenv("PORT")
-    if (port == ""){
-      port = "8080"
-    }
+    port := envDefault("PORT", "8080")
 
     cert, key := os.Getenv("CERT"), os.Getenv("KEY")
 
+    var err error
+
     if cert != "" && key != ""{
       fmt.Println("Starting TLS server on port", port)
-      http.ListenAndServeTLS(":" + port, cert, key, nil)
+      err = http.ListenAndServeTLS(":" + port, cert, key, nil)
     } else {
       fmt.Println("Starting server on port", port)
-      http.ListenAndServe(":" + port, nil)
+      err = http.ListenAndServe(":" + port, nil)
     }
+    handleError(err)
 
 }
 
 func parseYamlConfig () []webhook{
   hooks := make([]webhook, 0)
 
-  configFile := os.Getenv("CONFIG_FILE")
-  if (configFile == ""){
-    configFile = "config.yml"
-  }
+  configFile := envDefault("CONFIG_FILE", "config.yml")
 
-  // data, err := ioutil.ReadFile("/etc/git-repo-mirror/config.yml")
   data, err := ioutil.ReadFile(configFile)
   handleError(err);
 
@@ -74,4 +70,12 @@ func handleError (err error) {
   if err != nil {
     log.Fatal(err)
   }
+}
+
+func envDefault (env, fallback string) (val string){
+  val = os.Getenv(env)
+  if val == "" {
+    val = fallback
+  }
+  return val
 }
