@@ -21,8 +21,21 @@ func main() {
 
     http.HandleFunc("/", handler)
 
-    fmt.Println("Starting server on part 8080")
-    http.ListenAndServe(":8080", nil)
+
+    port := os.Getenv("PORT")
+    if (port == ""){
+      port = "8080"
+    }
+
+    cert, key := os.Getenv("CERT"), os.Getenv("KEY")
+
+    if cert != "" && key != ""{
+      fmt.Println("Starting TLS server on port", port)
+      http.ListenAndServeTLS(":" + port, cert, key, nil)
+    } else {
+      fmt.Println("Starting server on port", port)
+      http.ListenAndServe(":" + port, nil)
+    }
 
 }
 
