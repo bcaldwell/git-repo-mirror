@@ -28,3 +28,5 @@ config.yml
 repos
 
 *.git
+
+vendor

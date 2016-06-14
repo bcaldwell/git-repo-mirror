@@ -2,6 +2,8 @@ FROM golang:1.7-alpine
 
 RUN apk update && apk add git openssh
 
+ENV CONFIG_FILE=/etc/git-repo-mirror/config.yml
+
 # Copy the local package files to the container's workspace.
 ADD . /go/src/github.com/benjamincaldwell/git-repo-mirror
 
@@ -9,7 +11,7 @@ ADD . /go/src/github.com/benjamincaldwell/git-repo-mirror
 # Build the outyet command inside the container.
 # (You may fetch or manage dependencies here,
 # either manually or with a tool like "godep".)
-RUN go get github.com/ghodss/yaml
+# RUN go get github.com/ghodss/yaml
 RUN go install github.com/benjamincaldwell/git-repo-mirror
 
 RUN mkdir /etc/git-repo-mirror; echo "---" > /etc/git-repo-mirror/config.yml
