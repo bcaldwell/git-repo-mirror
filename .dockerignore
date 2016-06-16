@@ -1,0 +1,7 @@
+config.yml
+
+vendor
+
+repos
+
+*.git
