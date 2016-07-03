@@ -13,6 +13,8 @@ import (
   "gopkg.in/robfig/cron.v2"
   "time"
   "strconv"
+  "errors"
+  "log"
 )
 
 type webhook struct {
@@ -30,6 +32,10 @@ func (hook *webhook) init () {
   if hook.Url == "" {
     parts := strings.Split(hook.Name, ".git")
     hook.Url = "/" + parts[0]
+  }
+  if hook.Repo == "" || hook.Mirror_repo == "" {
+    err := errors.New("webhook configuration must contain both repo and mirror_repo options")
+    log.Fatal(err)
   }
 
   hook.createCron()
