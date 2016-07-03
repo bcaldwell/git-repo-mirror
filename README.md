@@ -6,10 +6,10 @@ Create a config.yml to configure mirror repos. An example config.yml
 ```yaml
 ---
   -
-    Repo: "repo to mirror from"
-    Mirror_repo: "repo to mirror to"
-    Url: "/hook url (optional)"
-    Name: "clone name(optional)"
+    repo: "repo to mirror from"
+    mirror_repo: "repo to mirror to"
+    url: "/hook url (optional)"
+    name: "clone name(optional)"
 
 ```
 
