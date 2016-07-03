@@ -56,7 +56,8 @@ func parseYamlConfig () []webhook{
 }
 
 func handler(w http.ResponseWriter, r *http.Request){
-    fmt.Fprintf(w, "success")
+    w.WriteHeader(404)
+    fmt.Fprintf(w, "Not Found")
 }
 
 func exists(path string) (bool, error) {
