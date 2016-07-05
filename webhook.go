@@ -43,8 +43,8 @@ func (hook *webhook) init () {
   hook.setUpRepo()
 }
 
-func (hook *webhook) createCron () {
-  interval := envDefault("CRON", "@hourly")
+func (hook webhook) createCron () {
+  interval := envDefault("CRON", "* * 1 * * *")
 
   if strings.ToLower(interval) == "false" {
     return
@@ -54,7 +54,7 @@ func (hook *webhook) createCron () {
   c.Start()
 }
 
-func (hook *webhook) createRoute () {
+func (hook webhook) createRoute () {
   http.HandleFunc(hook.Url, hook.ServeHTTP)
 }
 
