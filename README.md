@@ -48,7 +48,7 @@ services:
 - CERT: ssl certificate
 - KEY: ssl private keys
 - PORT: port to run on
-- CRON: cron string to run the cron job on (default `"* * 1 * * *"` -> 1 hour)
+- CRON: cron string to run the cron job on (default `"* * 1 * * *"` which is 1 hour)
 - CONFIG_FILE: config file location
 
 ## Setting up on a server
