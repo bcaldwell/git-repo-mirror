@@ -2,6 +2,9 @@
 	"ImportPath": "github.com/benjamincaldwell/git-repo-mirror",
 	"GoVersion": "go1.6",
 	"GodepVersion": "v74",
+	"Packages": [
+		"github.com/benjamincaldwell/git-repo-mirror"
+	],
 	"Deps": [
 		{
 			"ImportPath": "github.com/cloudfoundry-incubator/candiedyaml",
