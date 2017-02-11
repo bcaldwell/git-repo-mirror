@@ -1,0 +1,4 @@
+package: github.com/benjamincaldwell/git-repo-mirror
+import:
+- package: github.com/ghodss/yaml
+- package: github.com/robfig/cron 

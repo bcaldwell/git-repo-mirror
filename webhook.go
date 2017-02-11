@@ -14,7 +14,7 @@ import (
 	"path"
 	"strings"
 
-	"gopkg.in/robfig/cron.v2"
+	"github.com/robfig/cron"
 )
 
 type webhook struct {

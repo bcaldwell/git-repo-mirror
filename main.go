@@ -18,7 +18,19 @@ func main() {
 		hook.init()
 	}
 
-	http.HandleFunc("/", handler)
+	http.HandleFunc("/ping", func(w http.ResponseWriter, r *http.Request) {
+		w.WriteHeader(200)
+		fmt.Fprintf(w, "pong")
+	})
+
+	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+		if r.URL.Path != "/" {
+			http.NotFound(w, r)
+			return
+		}
+		w.WriteHeader(200)
+		fmt.Fprintf(w, "Configuration:\n\n%+v", hooks)
+	})
 
 	port := envDefault("PORT", "8080")
 
@@ -52,11 +64,6 @@ func parseYamlConfig() []webhook {
 	fmt.Printf("%+v\n\n", hooks)
 
 	return hooks
-}
-
-func handler(w http.ResponseWriter, r *http.Request) {
-	w.WriteHeader(404)
-	fmt.Fprintf(w, "Not Found")
 }
 
 func exists(path string) (bool, error) {

@@ -1,0 +1,10 @@
+hash: 0ea1c89c710a2bbe09f3db2adc5f3bc1625e981f88ce13040b72c3f40337c6e3
+updated: 2017-02-10T18:48:54.682170306-05:00
+imports:
+- name: github.com/ghodss/yaml
+  version: 04f313413ffd65ce25f2541bfd2b2ceec5c0908c
+- name: github.com/robfig/cron
+  version: 9585fd555638e77bba25f25db5c44b41f264aeb7
+- name: gopkg.in/yaml.v2
+  version: 4c78c975fe7c825c6d1466c42be594d1d6f3aba6
+testImports: []
