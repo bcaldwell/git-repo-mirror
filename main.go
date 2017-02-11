@@ -16,12 +16,9 @@ func main() {
 
 	hooks := parseYamlConfig()
 
-	for _, hook := range hooks {
-		hook.init()
+	for i := range hooks {
+		hooks[i].init()
 	}
-	hooks = append(hooks, webhook{
-		Repo: "hi",
-	})
 
 	http.HandleFunc("/ping", func(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(200)
