@@ -26,7 +26,7 @@ type webhook struct {
 	Dir         string
 }
 
-func (hook webhook) init() {
+func (hook *webhook) init() {
 	if hook.Name == "" {
 		parts := strings.Split(hook.Repo, "/")
 		hook.Name = parts[len(parts)-1]
