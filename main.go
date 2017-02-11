@@ -7,8 +7,9 @@ import (
 	"net/http"
 	"os"
 
+	"encoding/json"
+
 	"github.com/ghodss/yaml"
-	"github.com/kr/pretty"
 )
 
 func main() {
@@ -18,6 +19,9 @@ func main() {
 	for _, hook := range hooks {
 		hook.init()
 	}
+	hooks = append(hooks, webhook{
+		Repo: "hi",
+	})
 
 	http.HandleFunc("/ping", func(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(200)
@@ -30,8 +34,8 @@ func main() {
 			return
 		}
 		w.WriteHeader(200)
-		response := pretty.Sprintf("Configuration:\n\n%+v", hooks)
-		fmt.Fprintf(w, response)
+		response, _ := json.MarshalIndent(hooks, "", "\t")
+		fmt.Fprintf(w, "Configuration:\n\n%s", string(response))
 	})
 
 	port := envDefault("PORT", "8080")
