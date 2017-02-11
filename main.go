@@ -8,6 +8,7 @@ import (
 	"os"
 
 	"github.com/ghodss/yaml"
+	"github.com/kr/pretty"
 )
 
 func main() {
@@ -29,7 +30,8 @@ func main() {
 			return
 		}
 		w.WriteHeader(200)
-		fmt.Fprintf(w, "Configuration:\n\n%+v", hooks)
+		response := pretty.Sprintf("Configuration:\n\n%+v", hooks)
+		fmt.Fprintf(w, response)
 	})
 
 	port := envDefault("PORT", "8080")
