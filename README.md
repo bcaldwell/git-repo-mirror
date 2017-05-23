@@ -1,6 +1,6 @@
 # git-repo-mirror
 
-##Set up
+## Set up
 
 Create a config.yml to configure mirror repos. An example config.yml
 ```yaml
