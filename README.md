@@ -24,7 +24,7 @@ Create a config.yml to configure mirror repos. An example config.yml
 
 ```
 
-###Docker-compose
+### Docker-compose
 Example docker compose files
 ```yaml
 version: '2'
