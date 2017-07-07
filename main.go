@@ -17,7 +17,7 @@ func main() {
 	hooks := parseYamlConfig()
 
 	for i := range hooks {
-		hooks[i].init()
+		go hooks[i].init()
 	}
 
 	http.HandleFunc("/ping", func(w http.ResponseWriter, r *http.Request) {
